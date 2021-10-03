@@ -128,7 +128,7 @@ void process_copy() {
 	copy_file(source_handle, copy_handle, block_size, operations_count, l_source_size, buffer, over_read, over_write);
 	QueryPerformanceCounter(&end_time);
 
-	std::cout << time_calculation(start_time, end_time, frequency) << '\n';
+	std::cout << "Time: " << time_calculation(start_time, end_time, frequency) << " microseconds\n";
 
 	SetFilePointer(copy_handle, l_source_size, nullptr, FILE_BEGIN);
 	SetEndOfFile(copy_handle);
