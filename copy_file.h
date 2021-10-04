@@ -51,7 +51,7 @@ void action_overlapped(
 		current_size -= static_cast<uint64_t>(block_size);
 	}
 	while (callback_count < s_operations_count)
-		SleepEx(static_cast<DWORD>(std::numeric_limits<size_t>::max()), true);
+		SleepEx(std::numeric_limits<DWORD>::max(), true);
 	for (size_t i = 0; i < operations_count; i++) {
 		over[i].Offset += static_cast<DWORD>((shift << 32) >> 32);
 		over[i].OffsetHigh += static_cast<DWORD>(shift >> 32);
