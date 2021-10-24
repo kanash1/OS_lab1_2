@@ -41,6 +41,7 @@ void action_overlapped(
 	OVERLAPPED*& over
 ) {
 	size_t s_operations_count = 0;
+	uint64_t offset_full = 0;
 	uint64_t current_size = filesize.get_fullsize();
 	uint64_t shift = static_cast<uint64_t>(block_size) * static_cast<uint64_t>(operations_count);
 	for (size_t i = 0; i < operations_count; ++i) {
@@ -53,8 +54,9 @@ void action_overlapped(
 	while (callback_count < s_operations_count)
 		SleepEx(std::numeric_limits<DWORD>::max(), true);
 	for (size_t i = 0; i < operations_count; i++) {
-		over[i].Offset += static_cast<DWORD>((shift << 32) >> 32);
-		over[i].OffsetHigh += static_cast<DWORD>(shift >> 32);
+		offset_full = static_cast<uint64_t>(over[i].Offset) + (static_cast<uint64_t>(over[i].OffsetHigh) << 32) + shift;
+		over[i].Offset = static_cast<DWORD>((offset_full << 32) >> 32);
+		over[i].OffsetHigh = static_cast<DWORD>(offset_full >> 32);
 	}
 	callback_count = 0;
 }
